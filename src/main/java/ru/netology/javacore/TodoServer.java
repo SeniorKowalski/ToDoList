@@ -21,12 +21,12 @@ public class TodoServer {
 
     public void start() {
         System.out.println("Starting server at " + port + "...");
-        try (ServerSocket serverSocket = new ServerSocket(port);) {
+        try (ServerSocket serverSocket = new ServerSocket(port)) {
             while (true) {
                 try (
                         Socket socket = serverSocket.accept();
                         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                        PrintWriter out = new PrintWriter(socket.getOutputStream());
+                        PrintWriter out = new PrintWriter(socket.getOutputStream())
                 ) {
                     String jsonRequest = in.readLine();
                     InitJson initJson = new GsonBuilder().create().fromJson(jsonRequest, InitJson.class);
