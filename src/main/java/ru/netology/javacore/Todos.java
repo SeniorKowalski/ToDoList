@@ -50,6 +50,7 @@ public class Todos {
     }
 
     public String getAllTasks() {
-        return this.taskSet.isEmpty() ? "You have no tasks." : this.taskSet.toString();
+        Iterable<String> iterator = taskSet.stream().map(Object::toString)::iterator;
+        return this.taskSet.isEmpty() ? "You have no tasks." : (String.join(" ", iterator));
     }
 }
