@@ -13,9 +13,9 @@ public class Client {
         try (Socket socket = new Socket(HOST, ServerConfig.PORT);
              PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
              BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
-//            writer.println("{'type': 'ADD', 'task': 'Первая7'}");
-//            writer.println("{'type': 'REMOVE', 'task': 'Первая2'}");
-//            writer.println("{'type': 'REMOTE'}");
+//            writer.println("{'type': 'ADD', 'task': 'Первая'}");
+//            writer.println("{'type': 'REMOVE', 'task': 'Первая'}");
+//            writer.println("{'type': 'RESTORE'}");
             System.out.println(reader.readLine());
         } catch (IOException e) {
             e.printStackTrace();

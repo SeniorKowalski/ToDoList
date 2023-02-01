@@ -1,28 +1,30 @@
 package ru.netology.javacore;
 
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 public class Todos {
-    Task task;
-    Logger logger = Logger.getInstance();
-    TreeSet<Task> taskSet = new TreeSet<>();
+    private final Logger logger = Logger.getInstance();
+    private final TreeSet<Task> taskSet = new TreeSet<>();
 
     public void operationToDo(InitJson jsonInit) {
-        task = new Task(jsonInit.getTask());
+        Task task = new Task(jsonInit.getTask());
+        int maxNumOfTasks = 7;
+        int minNumOfTasks = 0;
         switch (jsonInit.getType()) {
             case "ADD":
-                if (taskSet.size() < 7) {
+                if (taskSet.size() < maxNumOfTasks) {
                     this.addTask(task);
                     logger.log(jsonInit);
                 }
                 break;
             case "REMOVE":
-                if (taskSet.size() > 0) {
+                if (taskSet.size() > minNumOfTasks) {
                     this.removeTask(task);
                     logger.log(jsonInit);
                 }
                 break;
-            case "REMOTE":
+            case "RESTORE":
                 try {
                     InitJson lastJsonTask = logger.getLastLog();
                     Task lastTask = new Task(lastJsonTask.getTask());
@@ -34,7 +36,7 @@ public class Todos {
                     logger.logRemote();
                     break;
                 } catch (Exception e) {
-                    System.out.println("Nothing to remote");
+                    System.out.println("Nothing to restore");
                 }
         }
     }
@@ -48,7 +50,12 @@ public class Todos {
     }
 
     public String getAllTasks() {
-        Iterable<String> iterator = taskSet.stream().map(Object::toString)::iterator;
-        return this.taskSet.isEmpty() ? "You have no tasks." : (String.join(" ", iterator));
+        return this.taskSet.isEmpty() ? "You have no tasks." : taskSet.stream()
+                .map(Object::toString)
+                .collect(Collectors.joining(" "));
+    }
+
+    public TreeSet<Task> getTaskSet() {
+        return taskSet;
     }
 }

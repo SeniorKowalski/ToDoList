@@ -38,7 +38,7 @@ public class TodosTests {
             initJson = new GsonBuilder().create().fromJson(param().get(i), InitJson.class);
             todos.operationToDo(initJson);
         }
-        Assertions.assertEquals(7, todos.taskSet.size());
+        Assertions.assertEquals(7, todos.getTaskSet().size());
     }
 
     // Добавляем все параметры и удаляем два. Должно остаться 5.
@@ -48,7 +48,7 @@ public class TodosTests {
             initJson = new GsonBuilder().create().fromJson(param().get(i), InitJson.class);
             todos.operationToDo(initJson);
         }
-        Assertions.assertEquals(5, todos.taskSet.size());
+        Assertions.assertEquals(5, todos.getTaskSet().size());
     }
 
     // Проверка команды REMOTE, должны остаться с первой по шестую позиции.
@@ -58,6 +58,6 @@ public class TodosTests {
             initJson = new GsonBuilder().create().fromJson(param().get(i), InitJson.class);
             todos.operationToDo(initJson);
         }
-        Assertions.assertEquals(6, todos.taskSet.size());
+        Assertions.assertEquals(6, todos.getTaskSet().size());
     }
 }
