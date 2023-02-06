@@ -25,9 +25,9 @@ public class TodosTests {
         params.add("{'type': 'ADD', 'task': 'Восьмая'}");
         params.add("{'type': 'REMOVE', 'task': 'Первая'}");
         params.add("{'type': 'REMOVE', 'task': 'Пятая'}");
-        params.add("{'type': 'REMOTE'}");
-        params.add("{'type': 'REMOTE'}");
-        params.add("{'type': 'REMOTE'}");
+        params.add("{'type': 'RESTORE'}");
+        params.add("{'type': 'RESTORE'}");
+        params.add("{'type': 'RESTORE'}");
         return params;
     }
 
@@ -51,9 +51,9 @@ public class TodosTests {
         Assertions.assertEquals(5, todos.getTaskSet().size());
     }
 
-    // Проверка команды REMOTE, должны остаться с первой по шестую позиции.
+    // Проверка команды RESTORE, должны остаться с первой по шестую позиции.
     @Test
-    public void remote() {
+    public void restore() {
         for (int i = 0; i < param().size(); i++) {
             initJson = new GsonBuilder().create().fromJson(param().get(i), InitJson.class);
             todos.operationToDo(initJson);
