@@ -2,7 +2,7 @@ package ru.netology.javacore;
 
 public class Task implements Comparable<Task> {
 
-    private String task;
+    private final String task;
 
     public Task(String task) {
         this.task = task;

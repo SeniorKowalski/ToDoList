@@ -12,7 +12,8 @@ import java.net.Socket;
 public class TodoServer {
 
     private final int port;
-    Todos todos;
+    private final Todos todos;
+    private final Logger logger = Logger.getInstance();
 
     public TodoServer(int port, Todos todos) {
         this.port = port;
@@ -30,13 +31,46 @@ public class TodoServer {
                 ) {
                     String jsonRequest = in.readLine();
                     InitJson initJson = new GsonBuilder().create().fromJson(jsonRequest, InitJson.class);
-                    todos.operationToDo(initJson);
+                    operationToDo(initJson);
                     out.print(todos.getAllTasks());
                 }
             }
         } catch (IOException e) {
             System.out.println("Не могу стартовать сервер");
             e.printStackTrace();
+        }
+    }
+
+    public void operationToDo(InitJson jsonInit) {
+        Task task = new Task(jsonInit.getTask());
+        int minNumOfTasks = 0;
+        switch (jsonInit.getType()) {
+            case "ADD":
+                if (todos.getTaskSet().size() < Todos.MAX_NUM_OF_TASKS) {
+                    todos.addTask(task);
+                    logger.log(jsonInit);
+                }
+                break;
+            case "REMOVE":
+                if (todos.getTaskSet().size() > minNumOfTasks) {
+                    todos.removeTask(task);
+                    logger.log(jsonInit);
+                }
+                break;
+            case "RESTORE":
+                try {
+                    InitJson lastJsonTask = logger.getLastLog();
+                    Task lastTask = new Task(lastJsonTask.getTask());
+                    if (lastJsonTask.getType().equals("ADD")) {
+                        todos.getTaskSet().remove(lastTask);
+                    } else {
+                        todos.addTask(lastTask);
+                    }
+                    logger.logRemote();
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Nothing to restore");
+                }
         }
     }
 }

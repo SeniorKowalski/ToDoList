@@ -10,6 +10,7 @@ import java.util.List;
 public class TodosTests {
 
     private final Todos todos = new Todos();
+    private final TodoServer todoServer = new TodoServer(ServerConfig.PORT,todos);
     private InitJson initJson = new InitJson();
 
     public List<String> param() {
@@ -36,7 +37,7 @@ public class TodosTests {
     public void addTodo() {
         for (int i = 0; i < 8; i++) {
             initJson = new GsonBuilder().create().fromJson(param().get(i), InitJson.class);
-            todos.operationToDo(initJson);
+            todoServer.operationToDo(initJson);
         }
         Assertions.assertEquals(7, todos.getTaskSet().size());
     }
@@ -46,7 +47,7 @@ public class TodosTests {
     public void removeTodo() {
         for (int i = 0; i < param().size() - 3; i++) {
             initJson = new GsonBuilder().create().fromJson(param().get(i), InitJson.class);
-            todos.operationToDo(initJson);
+            todoServer.operationToDo(initJson);
         }
         Assertions.assertEquals(5, todos.getTaskSet().size());
     }
@@ -56,7 +57,7 @@ public class TodosTests {
     public void restore() {
         for (int i = 0; i < param().size(); i++) {
             initJson = new GsonBuilder().create().fromJson(param().get(i), InitJson.class);
-            todos.operationToDo(initJson);
+            todoServer.operationToDo(initJson);
         }
         Assertions.assertEquals(6, todos.getTaskSet().size());
     }
